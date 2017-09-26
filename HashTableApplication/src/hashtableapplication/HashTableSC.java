@@ -26,21 +26,28 @@ public class HashTableSC {
     public void addItem(int item) {
         int hash = generateHash(item);
         Node currNode = studentIDs[hash];
+        if (null == currNode) {
+            studentIDs[hash] = new Node(item);
+            return;
+        }
+        Node prevNode = currNode;
+        currNode = currNode.next;
         while (true) {
             if (currNode == null) {
-                studentIDs[hash] = new Node(item);
+                prevNode.next = new Node(item);
                 break;
             }
+            prevNode = currNode;
             currNode = currNode.next;
         }
     }
 
-    public Node findItem(int item) {
+    public int findItem(int item) {
         int hash = generateHash(item);
         Node currNode = studentIDs[hash];
         while (true) {
             if (currNode.value == item) {
-                return currNode;
+                return currNode.value;
             }
             currNode = currNode.next;
         }
